@@ -43,6 +43,21 @@
     <!-- visit visa main -->
 
     <div class="bg-white-100 container mx-auto max-w-4xl px-4 py-5">
+      <div class="mb-3 border-l-4 border-yellow-400 bg-gray-100 p-4">
+        <p class="font-bold">Important Notice:</p>
+        <p>
+          <br />Please note that we will be collecting information from you to
+          assess your eligibility for our services. It is important that you
+          provide accurate and up-to-date information to ensure that we can make
+          an informed decision.
+        </p>
+        <p>
+          <br />Please be aware that we are not responsible for any inaccuracies
+          or errors in the data provided by you, and this may affect your
+          eligibility for our services.
+        </p>
+      </div>
+
       <label class="mb-2 block font-bold text-gray-700" for="visa-type"
         >Visa Application:</label
       >
@@ -64,7 +79,7 @@
 
     <div
       id="loading"
-      class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md"
+      class="flex flex-auto items-center justify-center backdrop-blur-md"
       style="display: none"
     >
       <div class="flex h-screen w-full items-center justify-center">
@@ -1454,7 +1469,7 @@
                     if (countdown >= 0) {
                       Swal.update({
                         icon: "success",
-                        title: "Successfully sent!",
+                        title: "Succesfully Submitted!",
                         text: `Redirecting in ${countdown}...`,
                       });
                     } else {
@@ -1465,7 +1480,7 @@
 
                   Swal.fire({
                     icon: "success",
-                    title: "Successfully sent!",
+                    title: "Succesfully Submitted!",
                     text: `Redirecting in ${countdown}...`,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -1591,7 +1606,7 @@
                     if (countdown >= 0) {
                       Swal.update({
                         icon: "success",
-                        title: "Successfully sent!",
+                        title: "Succesfully Submitted!",
                         text: `Redirecting in ${countdown}...`,
                       });
                     } else {
@@ -1602,7 +1617,7 @@
 
                   Swal.fire({
                     icon: "success",
-                    title: "Successfully sent!",
+                    title: "Succesfully Submitted!",
                     text: `Redirecting in ${countdown}...`,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -1700,7 +1715,7 @@
                     if (countdown >= 0) {
                       Swal.update({
                         icon: "success",
-                        title: "Successfully sent!",
+                        title: "Succesfully Submitted!",
                         text: `Redirecting in ${countdown}...`,
                       });
                     } else {
@@ -1711,7 +1726,7 @@
 
                   Swal.fire({
                     icon: "success",
-                    title: "Successfully sent!",
+                    title: "Succesfully Submitted!",
                     text: `Redirecting in ${countdown}...`,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -1843,7 +1858,7 @@
                     if (countdown >= 0) {
                       Swal.update({
                         icon: "success",
-                        title: "Successfully sent!",
+                        title: "Succesfully Submitted!!",
                         text: `Redirecting in ${countdown}...`,
                       });
                     } else {
@@ -1854,7 +1869,7 @@
 
                   Swal.fire({
                     icon: "success",
-                    title: "Successfully sent!",
+                    title: "Succesfully Submitted!",
                     text: `Redirecting in ${countdown}...`,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -1978,7 +1993,7 @@
                     if (countdown >= 0) {
                       Swal.update({
                         icon: "success",
-                        title: "Successfully sent!",
+                        title: "Succesfully Submitted!",
                         text: `Redirecting in ${countdown}...`,
                       });
                     } else {
@@ -1989,7 +2004,7 @@
 
                   Swal.fire({
                     icon: "success",
-                    title: "Successfully sent!",
+                    title: "Succesfully Submitted!",
                     text: `Redirecting in ${countdown}...`,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -2019,7 +2034,7 @@
       </div>`,
             icon: "error", // Change this to 'success', 'warning', or 'info' based on the desired appearance
             confirmButtonText: "Close",
-            background: "rgba(0, 0, 0, 0.5)",
+            background: "rgba(42, 39, 39, 0.9)",
             customClass: {
               container: "bg-gray-900 bg-opacity-80",
               popup: "rounded-md shadow-md p-4",
@@ -2036,7 +2051,7 @@
       </div>`,
             icon: "warning", // Change this to 'success', 'warning', or 'info' based on the desired appearance
             confirmButtonText: "Close",
-            background: "rgba(0, 0, 0, 0.5)",
+            background: "rgba(42, 39, 39, 0.9)",
             footer:
               "<div class='text-white'>Your details will be submitted automatically in 10 seconds.</div>",
             customClass: {
