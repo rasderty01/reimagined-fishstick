@@ -772,11 +772,43 @@ sponsorSelect.addEventListener("change", function () {
 function disableRadioButtons() {
   for (let i = 0; i < radioButtons.length; i++) {
     radioButtons[i].disabled = true;
+    console.log("myFunction was called");
   }
 }
 
 function enableRadioButtons() {
   for (let i = 0; i < radioButtons.length; i++) {
     radioButtons[i].disabled = false;
+    console.log("myFunction was called");
+  }
+}
+
+const relation = document.getElementById("relationship");
+const applysponsor = document.getElementsByName("salary");
+
+relation.addEventListener("change", function () {
+  if (
+    this.value === "Family" ||
+    this.value === "Partner" ||
+    this.value === "Friends" ||
+    this.value === "Other"
+  ) {
+    disablesponsor();
+  } else {
+    enablesponsor();
+  }
+});
+
+function disablesponsor() {
+  for (let i = 0; i < applysponsor.length; i++) {
+    applysponsor[i].disabled = true;
+    console.log("myFunction was called");
+  }
+}
+
+function enablesponsor() {
+  for (let i = 0; i < applysponsor.length; i++) {
+    applysponsor[i].disabled = false;
+    console.log("myFunction was called");
   }
 }

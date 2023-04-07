@@ -241,7 +241,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="mb-2 block text-sm font-bold text-gray-700"
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="relationship"
               >Applicant's Relationship with the Sponsor</label
             >
             <select
@@ -291,7 +291,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="mb-2 block text-sm font-bold text-gray-700"
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="applicant-income"
               >Applicant's Source of Income</label
             >
             <select
@@ -318,14 +318,14 @@
           </div>
 
           <div class="mb-4">
-            <label class="mb-2 block text-sm font-bold text-gray-700"
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="sponsor-income"
               >Sponsor's Source of Income</label
             >
             <select
               id="sponsor-income"
               name="sponsor-income"
               class="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
-              required
+              required 
             >
               <option disabled selected>Select an option</option>
               <option value="I'm applying without sponsor">
@@ -341,7 +341,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="mb-2 block text-sm font-bold text-gray-700"
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="salary"
               >Income Range (If applying without a sponsor)</label
             >
             <select
@@ -349,7 +349,7 @@
               name="salary"
               class="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
             >
-              <option value="">Select an option</option>
+              <option disabled selected>Select an option</option>
               <option value="₱10,000-₱20,000">₱10,000-₱20,000</option>
               <option value="₱21,000-₱40,000">₱21,000-₱40,000</option>
               <option value="On Benefits">₱40,000 above</option>
@@ -1357,6 +1357,6 @@
       </form>
     </div>
 
-    <script scr="mgiuk.js"></script>
+    <script src="mgiuk.js"></script>
   </body>
 </html>
