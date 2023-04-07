@@ -7,51 +7,48 @@ var sheetNames = ["Visit", "Fiance", "Spouse", "Married", "Unmarried"];
 var invoicesheet = "Payments";
 
 function doPost(e) {
-  var email = e.parameter.email;
+  var email = e.parameter.email.toLowerCase();
   var visaservice = e.parameter.visaservice;
   var priority = e.parameter.priority;
-  var frval = e.parameter.frval;
-  var mpaval = e.parameter.mpaval;
-  var rfaval = e.parameter.rfaval;
 
-  console.log(email);
-  console.log(visaservice);
-  console.log(priority);
-  console.log(frval);
-  console.log(mpaval);
-  console.log(rfaval);
-
-  var responseText = verifyEmail(
-    email,
-    visaservice,
-    priority,
-    frval,
-    mpaval,
-    rfaval
-  );
+  var responseText = verifyEmail(email, visaservice, priority);
 
   return ContentService.createTextOutput(responseText);
 }
 
-function verifyEmail(email, visaservice, priority, frval, mpaval, rfaval) {
+function verifyEmail(email, visaservice, priority) {
   if (visaservice === "Visit Visa") {
     var unitprice2 = 17000;
-  } else if (visaservice === "Fiance Visa") {
+  } else if (visaservice === "Fiancé Visa") {
     var unitprice2 = 40800;
-  } else if (visaservice === "Spouse Visa") {
+  } else if (visaservice === "Spouse Visa (FLR-M) Inside UK") {
     var unitprice2 = 40800;
-  } else if (visaservice === "Unmarried Visit Visa") {
+  } else if (visaservice === "Spouse Visa (FLR-M) Outside UK Processing") {
     var unitprice2 = 40800;
   } else if (visaservice === "Married Visit Visa") {
     var unitprice2 = 17000;
+  } else if (visaservice === "Unmarried Partner Visa") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "PBS/Skilled Worker Spouse Visa") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "PBS/Skilled Worker Unmarried Partner Visa") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "PBS/Skilled Worker Same-sex Partner Visa") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "PBS/ Skilled Worker Child Dependant Visa") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "Indefinite Leave to Remain (ILR)") {
+    var unitprice2 = 40800;
+  } else if (visaservice === "British Citizenship Processing") {
+    var unitprice2 = 40800;
   } else if (visaservice === "Child Dependant Visa") {
     var unitprice2 = 40800;
   }
 
-  if (priority === "Priority 1") {
+  if (priority === "Priority Service (7 working days)") {
     var unitprice3 = 6800;
     var prioqty = "1";
-  } else if (priority === "Priority 2") {
+  } else if (priority === "Priority Service (After Final Declaration)") {
     var unitprice3 = 3400;
     var prioqty = "1";
   } else if (priority === "") {
@@ -59,47 +56,8 @@ function verifyEmail(email, visaservice, priority, frval, mpaval, rfaval) {
     var prioqty = "";
   }
 
-  if (frval === "Flight Reservation") {
-    var misc1 = 1700;
-    var misc1qty = "1";
-  } else {
-    var misc1 = "";
-    var misc1qty = "";
-  }
-
-  if (mpaval === "Manila Personal Assistant") {
-    var misc2 = 800;
-    var misc2qty = "1";
-  } else {
-    var misc2 = "";
-    var misc2qty = "";
-  }
-
-  if (rfaval === "Rent-a-flight") {
-    var misc3 = 1700;
-    var misc3qty = "1";
-  } else {
-    var misc3 = "";
-    var misc3qty = "";
-  }
-
   var sheet, dataRange, values, row;
   var lastName, firstName, address, country, postalCode;
-
-  console.log(email, "email");
-  console.log(visaservice, "visaservice");
-  console.log(priority, "priority");
-  console.log(frval, "frval");
-  console.log(mpaval, "mpaval");
-  console.log(rfaval, "rfaval");
-  console.log(unitprice3, "unitprice3");
-  console.log(unitprice2, "unitprice2");
-  console.log(misc1, "misc2");
-  console.log(misc2, "misc2");
-  console.log(prioqty, "prioqty");
-  console.log(misc1qty, "misc1");
-  console.log(misc2qty, "misc2");
-  console.log(misc3qty, "misc3");
 
   var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   var randomInvoiceNumber = "VS-" + Math.floor(Math.random() * 9000 + 1000);
@@ -138,27 +96,15 @@ function verifyEmail(email, visaservice, priority, frval, mpaval, rfaval) {
 
     var visaprice = unitprice2;
     var prioprice = unitprice3;
-    var frprice = misc1;
-    var mpaprice = misc2;
-    var rafprice = misc3;
-    var amount = visaprice + prioprice + frprice + mpaprice + rafprice;
+    var amount = visaprice + prioprice;
 
     // Convert the amount to the target currency using the conversion rate
     if (conversionRate !== 1) {
       visaprice = unitprice2 / conversionRate;
       prioprice = unitprice3 / conversionRate;
-      frprice = misc1 / conversionRate;
-      mpaprice = misc2 / conversionRate;
-      rafprice = misc3 / conversionRate;
+
       amount = amount / conversionRate;
     }
-
-    console.log(visaprice);
-    console.log(prioprice);
-    console.log(frprice);
-    console.log(mpaprice);
-    console.log(rafprice);
-    console.log(amount);
 
     var invoiceData = {
       email: email,
@@ -173,24 +119,42 @@ function verifyEmail(email, visaservice, priority, frval, mpaval, rfaval) {
       unitPrice: amount,
       visa: visaprice,
       prio: prioprice,
-      misc11: frprice,
-      misc22: mpaprice,
-      misc33: rafprice,
       visaname: visaservice,
       prioname: priority,
-      miscname1: frval,
-      miscname2: mpaval,
-      miscname3: rfaval,
-      prioqty: prioqty,
-      misc1qty: misc1qty,
-      misc2qty: misc2qty,
-      misc3qty: misc3qty,
-
       currency: currency,
       amount: amount,
+      qty1: prioqty,
     };
 
-    var pdfBlob = createInvoicePdf(invoiceTemplateId, invoiceData);
+    var placeholders = {
+      First_Name: "firstName",
+      Last_Name: "lastName",
+      Insert_Address: "address",
+      Insert_Country: "country",
+      Insert_Pcode: "postalCode",
+      invoice_in: "invoiceNumber",
+      duedate_in: "dueDate",
+      today_in: "invoiceDate",
+      Visa_Service: "visaname",
+      Priority: "prioname",
+      qty1: "qty1",
+      unit_price: "visa",
+      unit_price2: "prio",
+      amount_in: "visa",
+      amount_in1: "prio",
+      currency_: "currency",
+      total_: "amount",
+
+      // Add other placeholders here
+    };
+
+    // Call the createInvoicePdf function with the placeholders object
+    var pdfBlob = createInvoicePdf(
+      invoiceTemplateId,
+      invoiceData,
+      placeholders
+    );
+
     var folderId = "1Y7_xZgNCZsjXdIauI67gENueMFcCe8M0";
     var folder = DriveApp.getFolderById(folderId);
     var file = folder.createFile(pdfBlob);
@@ -212,74 +176,36 @@ function verifyEmail(email, visaservice, priority, frval, mpaval, rfaval) {
   }
 }
 
-function createInvoicePdf(templateId, invoiceData) {
+function createInvoicePdf(templateId, invoiceData, placeholders) {
   var template = DriveApp.getFileById(templateId);
   var tempDoc = template.makeCopy().getId();
   var doc = DocumentApp.openById(tempDoc);
   var body = doc.getBody();
 
-  body.replaceText("{{First_Name}}", invoiceData.firstName);
-  body.replaceText("{{Last_Name}}", invoiceData.lastName);
-  body.replaceText("{{Insert_Address}}", invoiceData.address);
-  body.replaceText("{{Insert_Country}}", invoiceData.country);
-  body.replaceText("{{Insert_Pcode}}", invoiceData.postalCode);
-  body.replaceText("{{invoice_in}}", invoiceData.invoiceNumber);
-  body.replaceText("{{duedate_in}}", formatDate(invoiceData.dueDate));
-  body.replaceText("{{today_in}}", formatDate(invoiceData.invoiceDate));
-  body.replaceText("{{Visa_Service}}", invoiceData.visaname);
-  body.replaceText("{{Priority}}", invoiceData.prioname);
-  body.replaceText("{{Misc1}}", invoiceData.miscname1);
-  body.replaceText("{{Misc2}}", invoiceData.miscname2);
-  body.replaceText("{{Misc3}}", invoiceData.miscname3);
-  body.replaceText("{{qty1}}", invoiceData.prioqty);
-  body.replaceText("{{qty2}}", invoiceData.misc1qty);
-  body.replaceText("{{qty3}}", invoiceData.misc2qty);
-  body.replaceText("{{qty4}}", invoiceData.misc3qty);
-  body.replaceText("{{amount_in}}", invoiceData.visa.toFixed(2));
-  body.replaceText("{{amount_in1}}", invoiceData.prio.toFixed(2));
+  // Iterate through the placeholders object and replace the placeholders with their respective values
+  for (var key in placeholders) {
+    if (placeholders.hasOwnProperty(key)) {
+      // Get the value from the invoiceData object
+      var value = invoiceData[placeholders[key]];
 
-  if (invoiceData.misc11 === "") {
-    body.replaceText("{{amount_in2}}", invoiceData.misc11);
-  } else {
-    body.replaceText("{{amount_in2}}", invoiceData.misc11.toFixed(2));
+      // Check if the value is a number
+      if (typeof value === "number") {
+        value = value.toFixed(2);
+      }
+      // Check if the value is a date
+      else if (value instanceof Date) {
+        value = formatDate(value);
+      }
+
+      // Ensure value is a string before replacing the text
+      if (typeof value === "string") {
+        body.replaceText("{{" + key + "}}", value);
+      } else {
+        console.error("Value is not a string: ", value);
+      }
+    }
   }
 
-  if (invoiceData.misc22 === "") {
-    body.replaceText("{{amount_in3}}", invoiceData.misc22);
-  } else {
-    body.replaceText("{{amount_in3}}", invoiceData.misc22.toFixed(2));
-  }
-
-  if (invoiceData.misc33 === "") {
-    body.replaceText("{{amount_in4}}", invoiceData.misc33);
-  } else {
-    body.replaceText("{{amount_in4}}", invoiceData.misc33.toFixed(2));
-  }
-
-  body.replaceText("{{unit_price}}", invoiceData.visa.toFixed(2));
-
-  body.replaceText("{{unit_price2}}", invoiceData.prio.toFixed(2));
-
-  if (invoiceData.misc11 === "") {
-    body.replaceText("{{unit_price3}}", invoiceData.misc11);
-  } else {
-    body.replaceText("{{unit_price3}}", invoiceData.misc11.toFixed(2));
-  }
-
-  if (invoiceData.misc22 === "") {
-    body.replaceText("{{unit_price4}}", invoiceData.misc22);
-  } else {
-    body.replaceText("{{unit_price4}}", invoiceData.misc22.toFixed(2));
-  }
-
-  if (invoiceData.misc33 === "") {
-    body.replaceText("{{unit_price5}}", invoiceData.misc33);
-  } else {
-    body.replaceText("{{unit_price5}}", invoiceData.misc33.toFixed(2));
-  }
-
-  body.replaceText("{{currency_}}", invoiceData.currency);
-  body.replaceText("{{total_}}", invoiceData.amount.toFixed(2));
   doc.saveAndClose();
 
   var pdfBlob = DriveApp.getFileById(tempDoc).getAs("application/pdf");
