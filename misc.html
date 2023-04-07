@@ -76,14 +76,49 @@
             required
           >
             <option disabled selected>Select an Option</option>
-            <option value="Priority 1">
-              Priority Service (7 working days; £100)
-            </option>
-            <option value="Priority 2">
-              Priority Service (After Final Declaration; £50)
-            </option>
+            <option value="Priority 1">Priority Service (x days; £100)</option>
+            <option value="Priority 2">Priority Service (x days; £50)</option>
             <option value="">No Priority</option>
           </select>
+        </div>
+        <label class="flex w-full font-bold">Miscellaneous</label>
+        <div class="flex items-center p-3">
+          <input
+            type="checkbox"
+            id="FR"
+            name="fr"
+            value="Flight Reservation"
+            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
+          />
+          <label class="text-sm text-gray-900 ml-2" for="FR"
+            >Flight Reservation (£25)</label
+          >
+        </div>
+
+        <div class="flex items-center p-3">
+          <input
+            type="checkbox"
+            id="MPA"
+            name="mpa"
+            value="Manila Personal Assistant"
+            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
+          />
+          <label class="text-sm text-gray-900 ml-2" for="MPA"
+            >Manila Personal Assistant (£12/day)</label
+          >
+        </div>
+
+        <div class="flex items-center p-3">
+          <input
+            type="checkbox"
+            id="RAF"
+            name="raf"
+            value="Rent-a-flight"
+            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
+          />
+          <label class="text-sm text-gray-900 ml-2" for="RAF"
+            >Rent-a-flight (£25)</label
+          >
         </div>
 
         <div class="flex-col p-3 text-center">
@@ -311,6 +346,21 @@
           var email = document.getElementById("email").value;
           var visaservice = document.getElementById("mySelectVS").value;
           var priority = document.getElementById("mySelectP").value;
+          var frval1 = document.getElementById("FR");
+          if (frval1.checked) {
+            var frval = frval1.value;
+          } else var frval = "";
+
+          var mpaval1 = document.getElementById("MPA");
+          if (mpaval1.checked) {
+            var mpaval = mpaval1.value;
+          } else var mpaval = "";
+          var rfaval1 = document.getElementById("RAF");
+
+          if (rfaval1.checked) {
+            var rfaval = rfaval1.value;
+          } else var rfaval = "";
+
           var spinner = document.getElementById("loading");
           var upload = document.getElementById("upload-form");
 
@@ -361,7 +411,7 @@
               .withFailureHandler(function (error) {
                 alert("This is the Error: " + error);
               })
-              .verifyEmail(email, visaservice, priority);
+              .verifyEmail(email, visaservice, priority, frval, mpaval, rfaval);
           }
         });
 
@@ -406,26 +456,6 @@
 
         document.getElementById("upload-form").reset();
 
-        // Ask the user if they want to purchase misc items
-        Swal.fire({
-          icon: "question",
-          title: "Would you like to purchase misc items?",
-          text: "Click 'Yes' to be redirected to the misc items page.",
-          showCancelButton: true,
-          confirmButtonText: "Yes",
-          cancelButtonText: "No, thanks!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // User wants to purchase misc items, redirect to the misc items page
-            window.location.href = "https://www.example.com/misc"; // Replace with the URL of your misc items page
-          } else {
-            // User does not want to purchase misc items, redirect to the success page
-            redirectToSuccessPage();
-          }
-        });
-      }
-
-      function redirectToSuccessPage() {
         let countdown = 5;
 
         const countdownInterval = setInterval(() => {
