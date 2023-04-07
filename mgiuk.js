@@ -31,9 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Perform validation for Form 1
     const formAlerts = document.getElementById("form_alerts");
-    const metSponsor = document.querySelector(
-      'input[name="metSponsor"]:checked'
-    ).value;
+
+    var metSponsor = document.querySelector('input[name="metSponsor"]:checked');
+
+    if (metSponsor) {
+      metSponsor.value;
+    } else {
+      metSponsor = "";
+    }
+    console.log(metSponsor);
+
+    console.log(metSponsor);
+
     const applicantSourceOfIncome =
       document.querySelector("#applicant-income").value;
     const sponsorSourceOfIncome =
