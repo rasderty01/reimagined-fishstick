@@ -757,3 +757,26 @@ const otherCountryContainer5 = document.getElementById(
 countrySelect5.addEventListener("change", (event) => {
   handleCountryChange(event, "otherCountryContainer5");
 });
+
+const sponsorSelect = document.getElementById("relationship");
+const radioButtons = document.getElementsByName("metSponsor");
+
+sponsorSelect.addEventListener("change", function () {
+  if (this.value === "I'm applying without sponsor") {
+    disableRadioButtons();
+  } else {
+    enableRadioButtons();
+  }
+});
+
+function disableRadioButtons() {
+  for (let i = 0; i < radioButtons.length; i++) {
+    radioButtons[i].disabled = true;
+  }
+}
+
+function enableRadioButtons() {
+  for (let i = 0; i < radioButtons.length; i++) {
+    radioButtons[i].disabled = false;
+  }
+}
