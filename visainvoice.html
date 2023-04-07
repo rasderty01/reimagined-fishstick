@@ -52,15 +52,39 @@
           >
             <option value="">Select an Option</option>
             <option value="Visit Visa">Visit Visa</option>
-            <option value="Fiance Visa">Fiance Visa</option>
-            <option value="Spouse Visa">Spouse Visa</option>
-            <option value="Unmarried Visit Visa">Unmarried Visit Visa</option>
-            <option value="Married Visit Visa">Married Visit Visa</option>
-            <option value="Child Dependant Visa">
-              Child Dependant Visit Visa
+            <option value="Fiancé Visa">Fiance Visa</option>
+            <option value="Spouse Visa (FLR-M) Inside UK">
+              Spouse Visa (FLR-M) Inside UK
             </option>
+            <option value="Spouse Visa (FLR-M) Outside UK Processing">
+              Spouse Visa (FLR-M) Outside UK
+            </option>
+            <option value="Married Visit Visa">Married Visit Visa</option>
+            <option value="Unmarried Partner Visa">
+              Unmarried Partner Visa
+            </option>
+            <option value="PBS/Skilled Worker Spouse Visa">
+              PBS/Skilled Worker Spouse Visa
+            </option>
+            <option value="PBS/Skilled Worker Unmarried Partner Visa">
+              PBS/Skilled Worker Unmarried Partner Visa
+            </option>
+            <option value="PBS/Skilled Worker Same-sex Partner Visa">
+              PBS/Skilled Worker Same-sex Partner Visa
+            </option>
+            <option value="PBS/ Skilled Worker Child Dependant Visa">
+              PBS/ Skilled Worker Child Dependant Visa
+            </option>
+            <option value="Indefinite Leave to Remain (ILR)">
+              Indefinite Leave to Remain (ILR)
+            </option>
+            <option value="British Citizenship Processing">
+              British Citizenship Processing
+            </option>
+            <option value="Child Dependant Visa">Child Dependant Visa</option>
           </select>
         </div>
+
         <div
           class="flex flex-wrap w-80 rounded-md border-black bg-yellow-100 font-normal font-sans text-xs m-auto p-2 overflow-auto"
         >
@@ -76,11 +100,11 @@
             required
           >
             <option disabled selected>Select an Option</option>
-            <option value="Priority 1">
-              Priority Service (7 working days; £100)
+            <option value="Priority Service (7 working days; £100)">
+              Priority Service (7 working days)
             </option>
-            <option value="Priority 2">
-              Priority Service (After Final Declaration; £50)
+            <option value="Priority Service (After Final Declaration)">
+              Priority Service (After Final Declaration)
             </option>
             <option value="">No Priority</option>
           </select>
@@ -180,15 +204,20 @@
         enctype="multipart/form-data"
         class="container-lg px-4 py-4 flex flex-col m-10 bg-white bg-opacity-80 transform translate-x-0 translate-y-0 hidden"
       >
+        <div class="flex flex-col">
+          <h1 class="text-center text-2xl font-black font-sans mb-2">
+            Follow the steps below:
+          </h1>
+        </div>
         <div class="flex-col text-xl font-bold p-2 mb-4 w-80">
-          Kindly click/tap the Download Invoice button:
+          Step 1: Tap/click the button to download the invoice:
         </div>
         <div
           id="download-link-container"
           class="flex-col justify-center text-center py-5"
         ></div>
-        <label class="mb-2 block text-xl font-normal text-black"
-          >Kindly upload your Proof of Payment:
+        <label class="mb-2 block text-xl font-bold text-black p-2 mb-4 w-80"
+          >Step 2: After paying, upload your proof of purchase:
         </label>
         <input
           type="file"
@@ -409,7 +438,7 @@
         // Ask the user if they want to purchase misc items
         Swal.fire({
           icon: "question",
-          title: "Would you like to purchase misc items?",
+          title: "Would you like to purchase optional items?",
           text: "Click 'Yes' to be redirected to the misc items page.",
           showCancelButton: true,
           confirmButtonText: "Yes",
