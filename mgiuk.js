@@ -1,5 +1,5 @@
 const url =
-  "https://script.google.com/macros/s/AKfycbxXwPD9F1wNvX_VK5KoS15TtxOiwaqUl6g7pnq_S5OvYRzvCu5MTkMWkefbqmaKxhHBAA/exec";
+  "https://script.google.com/macros/s/AKfycbzIKjd8KozCcjzkhyqhWKybz2TPRvYq8RKhOy8LBjy7pDdAt-TYFF0ZFPj4n1fE7FIJqA/exec";
 
 document.addEventListener("DOMContentLoaded", function () {
   var form1 = document.getElementById("VV"); //visitvisa
