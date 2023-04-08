@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>MGiUK Visa Services</title>
+    <title>MGiUK Add-ons</title>
   </head>
 
   <body
@@ -25,7 +25,7 @@
       >
         <div class="flex flex-col">
           <h1 class="text-center text-2xl font-black font-sans mb-2">
-            Miscellaneous Add-ons
+            Select Optional Services
           </h1>
         </div>
 
@@ -43,82 +43,68 @@
         </div>
 
         <div class="flex-col p-3">
-          <label class="flex w-full font-bold">Visa Services</label>
+          <label class="flex w-full font-bold">Other Services</label>
           <select
-            id="mySelectVS"
-            name="visaservice"
+            id="raf"
+            name="raf"
             class="text-center rounded-lg text-sm shadow-md focus:shadow-none placeholder-gray-500 w-full border border-solid border-blue-400 mt-4 py-2 bg-white focus:border-blue-800 focus:ring-4 focus:ring-sky-500 focus: outline-none focus: border-0 hover:bg-gray-50"
             required
           >
             <option value="">Select an Option</option>
-            <option value="Visit Visa">Visit Visa</option>
-            <option value="Fiance Visa">Fiance Visa</option>
-            <option value="Spouse Visa">Spouse Visa</option>
-            <option value="Unmarried Visit Visa">Unmarried Visit Visa</option>
-            <option value="Married Visit Visa">Married Visit Visa</option>
-            <option value="Child Dependant Visa">
-              Child Dependant Visit Visa
+            <option value="Rent-a-flight (Return)">
+              Rent-a-flight (Return)
+            </option>
+            <option value="Rent-a-flight (One way)">
+              Rent-a-flight (One way)
+            </option>
+            <option value="Rent-a-flight with hotel accommodation">
+              Rent-a-flight with hotel accommodation
             </option>
           </select>
         </div>
-        <div
-          class="flex flex-wrap w-80 rounded-md border-black bg-yellow-100 font-normal font-sans text-xs m-auto p-2 overflow-auto"
-        >
-          <b>Note:</b> Please select the appropriate option based on what was
-          discussed and agreed upon during the consultation call.
-        </div>
-        <div class="flex-col p-3">
-          <label class="flex w-full font-bold">Priority</label>
-          <select
-            id="mySelectP"
-            name="priority"
-            class="text-center rounded-lg text-sm shadow-md focus:shadow-none placeholder-gray-500 w-full border border-solid border-blue-400 mt-4 py-2 bg-white focus:border-blue-800 focus:ring-4 focus:ring-sky-500 focus: outline-none focus: border-0 hover:bg-gray-50"
-            required
-          >
-            <option disabled selected>Select an Option</option>
-            <option value="Priority 1">Priority Service (x days; £100)</option>
-            <option value="Priority 2">Priority Service (x days; £50)</option>
-            <option value="">No Priority</option>
-          </select>
-        </div>
-        <label class="flex w-full font-bold">Miscellaneous</label>
-        <div class="flex items-center p-3">
+
+        <div class="flex-col p-3 ml-2">
           <input
             type="checkbox"
-            id="FR"
-            name="fr"
-            value="Flight Reservation"
-            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
+            name="har"
+            id="har"
+            value="Hotel Accommodation Reservation"
           />
-          <label class="text-sm text-gray-900 ml-2" for="FR"
-            >Flight Reservation (£25)</label
+          <label class="font-normal" for="har"
+            >Hotel Accommodation Reservation</label
           >
         </div>
 
-        <div class="flex items-center p-3">
+        <div class="flex-col p-3 ml-2">
           <input
             type="checkbox"
-            id="MPA"
+            name="pas"
+            id="pas"
+            value="Philippine Accommodation (Studio)"
+          />
+          <label class="font-normal" for="pas"
+            >Philippine Accommodation (Studio)</label
+          >
+        </div>
+
+        <div class="flex-col p-3 ml-2">
+          <input
+            type="checkbox"
             name="mpa"
+            id="mpa"
             value="Manila Personal Assistant"
-            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
           />
-          <label class="text-sm text-gray-900 ml-2" for="MPA"
-            >Manila Personal Assistant (£12/day)</label
-          >
+          <label class="font-normal" for="mpa">Manila Personal Assistant</label>
         </div>
-
-        <div class="flex items-center p-3">
-          <input
-            type="checkbox"
-            id="RAF"
-            name="raf"
-            value="Rent-a-flight"
-            class="rounded-lg text-sm focus:ring-blue-500 border-gray-50"
-          />
-          <label class="text-sm text-gray-900 ml-2" for="RAF"
-            >Rent-a-flight (£25)</label
-          >
+        <div id="range" class="flex-col hidden">
+          <div class="flex-col p-3 ml-2">
+            <label class="font-normal" for="mpa"
+              >Number of Days: <output id="values"></output
+            ></label>
+          </div>
+          <div class="flex-col p-3 ml-2">
+            <input type="range" name="days" id="days" min="1" max="10" />
+          </div>
         </div>
 
         <div class="flex-col p-3 text-center">
@@ -215,15 +201,20 @@
         enctype="multipart/form-data"
         class="container-lg px-4 py-4 flex flex-col m-10 bg-white bg-opacity-80 transform translate-x-0 translate-y-0 hidden"
       >
+        <div class="flex flex-col">
+          <h1 class="text-center text-2xl font-black font-sans mb-2">
+            Follow the steps below:
+          </h1>
+        </div>
         <div class="flex-col text-xl font-bold p-2 mb-4 w-80">
-          Kindly click/tap the Download Invoice button:
+          Step 1: Tap/click the button to download the invoice:
         </div>
         <div
           id="download-link-container"
           class="flex-col justify-center text-center py-5"
         ></div>
-        <label class="mb-2 block text-xl font-normal text-black"
-          >Kindly upload your Proof of Payment:
+        <label class="mb-2 block text-xl font-bold text-black p-2 mb-4 w-80"
+          >Step 2: After paying, upload your proof of purchase:
         </label>
         <input
           type="file"
@@ -323,6 +314,39 @@
     </div>
 
     <script>
+      const randomInvoiceNumber =
+        "MISC-" + Math.floor(Math.random() * 9000 + 1000);
+
+      const data1 = {
+        // Your existing form data
+        randomInvoiceNumber: randomInvoiceNumber,
+      };
+
+      console.log(data1);
+      console.log(randomInvoiceNumber);
+      console.log(randomInvoiceNumber);
+      console.log(randomInvoiceNumber);
+
+      const value = document.querySelector("#values");
+      const input = document.querySelector("#days");
+      value.textContent = input.value;
+      input.addEventListener("input", (event) => {
+        value.textContent = event.target.value;
+      });
+
+      document.getElementById("mpa").addEventListener("change", showdays);
+
+      function showdays() {
+        var mpa = document.getElementById("mpa");
+        var rangediv = document.getElementById("range");
+
+        if (mpa.checked) {
+          rangediv.classList.remove("hidden");
+        } else {
+          rangediv.classList.add("hidden");
+        }
+      }
+
       function preventFormSubmit() {
         var forms = document.querySelectorAll("form");
         for (var i = 0; i < forms.length; i++) {
@@ -344,25 +368,49 @@
           }
 
           var email = document.getElementById("email").value;
-          var visaservice = document.getElementById("mySelectVS").value;
-          var priority = document.getElementById("mySelectP").value;
-          var frval1 = document.getElementById("FR");
-          if (frval1.checked) {
-            var frval = frval1.value;
-          } else var frval = "";
+          var rentaflight = document.getElementById("raf").value;
+          var har = document.querySelector("#har");
 
-          var mpaval1 = document.getElementById("MPA");
-          if (mpaval1.checked) {
-            var mpaval = mpaval1.value;
-          } else var mpaval = "";
-          var rfaval1 = document.getElementById("RAF");
+          if (har.checked) {
+            var har = document.querySelector("#har").value;
+          } else {
+            har = "";
+          }
 
-          if (rfaval1.checked) {
-            var rfaval = rfaval1.value;
-          } else var rfaval = "";
+          console.log(har);
+
+          var pas = document.querySelector("#pas");
+
+          if (pas.checked) {
+            var pas = document.querySelector("#pas").value;
+          } else {
+            pas = "";
+          }
+
+          console.log(pas);
+
+          var manilapa = document.querySelector("#mpa");
+
+          if (manilapa.checked) {
+            var manilapa = document.querySelector("#mpa").value;
+          } else {
+            manilapa = "";
+          }
+
+          console.log(manilapa);
+
+          if (manilapa === "Manila Personal Assistant") {
+            var manilapadays = document.getElementById("days").value;
+          } else {
+            manilapadays = "";
+          }
+
+          console.log(manilapadays);
 
           var spinner = document.getElementById("loading");
           var upload = document.getElementById("upload-form");
+
+          console.log(randomInvoiceNumber);
 
           if (email) {
             // Show the spinner
@@ -411,7 +459,15 @@
               .withFailureHandler(function (error) {
                 alert("This is the Error: " + error);
               })
-              .verifyEmail(email, visaservice, priority, frval, mpaval, rfaval);
+              .verifyEmail(
+                email,
+                rentaflight,
+                har,
+                pas,
+                manilapa,
+                manilapadays,
+                data1.randomInvoiceNumber
+              );
           }
         });
 
@@ -429,6 +485,7 @@
         }
         var spinner1 = document.getElementById("spinner1");
         spinner1.classList.remove("hidden");
+        console.log(randomInvoiceNumber);
 
         var uploadedFile = document.getElementById("uploadedFile").files[0];
         var reader = new FileReader();
@@ -436,6 +493,7 @@
           var fileData = {
             data: e.target.result,
             name: uploadedFile.name,
+            randomInvoiceNumber: randomInvoiceNumber,
             email: document.getElementById("email").value,
           };
 
@@ -451,9 +509,6 @@
       }
 
       function success() {
-        var spinner1 = document.getElementById("spinner1");
-        spinner1.classList.add("hidden");
-
         document.getElementById("upload-form").reset();
 
         let countdown = 5;

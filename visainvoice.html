@@ -317,6 +317,19 @@
     </div>
 
     <script>
+      const randomInvoiceNumber =
+        "MISC-" + Math.floor(Math.random() * 9000 + 1000);
+
+      const data1 = {
+        // Your existing form data
+        randomInvoiceNumber: randomInvoiceNumber,
+      };
+
+      console.log(data1);
+      console.log(randomInvoiceNumber);
+      console.log(randomInvoiceNumber);
+      console.log(randomInvoiceNumber);
+
       function preventFormSubmit() {
         var forms = document.querySelectorAll("form");
         for (var i = 0; i < forms.length; i++) {
@@ -390,7 +403,12 @@
               .withFailureHandler(function (error) {
                 alert("This is the Error: " + error);
               })
-              .verifyEmail(email, visaservice, priority);
+              .verifyEmail(
+                email,
+                visaservice,
+                priority,
+                data1.randomInvoiceNumber
+              );
           }
         });
 
@@ -415,6 +433,7 @@
           var fileData = {
             data: e.target.result,
             name: uploadedFile.name,
+            randomInvoiceNumber: randomInvoiceNumber,
             email: document.getElementById("email").value,
           };
 
@@ -446,7 +465,10 @@
         }).then((result) => {
           if (result.isConfirmed) {
             // User wants to purchase misc items, redirect to the misc items page
-            window.location.href = "https://www.example.com/misc"; // Replace with the URL of your misc items page
+            window.open(
+              "https://script.google.com/macros/s/AKfycbw0e0ZSn9jbg5LhW7tYLKDZ3VHYKIFcbcjv-CHbG62MvIVxz5Nv6NxeND1SgfsJF5S9/exec",
+              "_blank"
+            ); // Replace with the URL of your misc items page
           } else {
             // User does not want to purchase misc items, redirect to the success page
             redirectToSuccessPage();
@@ -467,7 +489,7 @@
             });
           } else {
             clearInterval(countdownInterval);
-            window.location.href = "https://www.example.com"; // Replace with your desired URL
+            window.open("https://mgiukgroup.com", "_blank"); // Replace with your desired URL
           }
         }, 1000);
 

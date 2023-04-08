@@ -13,8 +13,6 @@ function doPost(e) {
   var philacco = e.parameter.pas;
   var manilapa = e.parameter.mpa;
   var manilapadays = e.parameter.days;
-  const randomInvoiceNumber = e.parameter.randomInvoiceNumber;
-  Logger.log(randomInvoiceNumber);
 
   var responseText = verifyEmail(
     email,
@@ -22,8 +20,7 @@ function doPost(e) {
     hotelacc,
     philacco,
     manilapa,
-    manilapadays,
-    randomInvoiceNumber
+    manilapadays
   );
 
   return ContentService.createTextOutput(responseText);
@@ -35,8 +32,7 @@ function verifyEmail(
   hotelacc,
   philacco,
   manilapa,
-  manilapadays,
-  randomInvoiceNumber
+  manilapadays
 ) {
   email = email.toLowerCase();
   manilapadays = parseInt(manilapadays, 10);
@@ -45,7 +41,7 @@ function verifyEmail(
   var lastName, firstName, address, country, postalCode;
 
   var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-  //var randomInvoiceNumber = "MISC-" + Math.floor(Math.random() * 9000 + 1000);
+  var randomInvoiceNumber = "MISC-" + Math.floor(Math.random() * 9000 + 1000);
   var invoiceTemplateId = "1J03ghsWUTflreObBg1Z4K4skOaS45Ara5bg_d_oMLyM";
 
   for (var i = 0; i < sheetNames.length; i++) {
@@ -78,18 +74,18 @@ function verifyEmail(
 
     if (rentaflight === "Rent-a-flight (Return)") {
       var unitprice2 = currency === "PHP" ? 2500 : 25;
-      var rafqty = 1;
+      var rafqty = "";
     } else if (rentaflight === "Rent-a-flight (One way)") {
       var unitprice2 = currency === "PHP" ? 1000 : 20;
-      var rafqty = 1;
+      var rafqty = "";
     } else if (rentaflight === "Rent-a-flight with hotel accommodation") {
       var unitprice2 = currency === "PHP" ? 2000 : 30;
-      var rafqty = 1;
+      var rafqty = "";
     }
 
     if (hotelacc === "Hotel Accommodation Reservation") {
       var unitprice3 = currency === "PHP" ? 1000 : 20;
-      var hotelaccqty = 1;
+      var hotelaccqty = "1";
     } else {
       var unitprice3 = "";
       var hotelaccqty = "";
@@ -97,7 +93,7 @@ function verifyEmail(
 
     if (philacco === "Philippine Accommodation (Studio)") {
       var unitprice4 = currency === "PHP" ? 2250 : 35;
-      var philaccoqty = 1;
+      var philaccoqty = "1";
     } else {
       var unitprice4 = "";
       var philaccoqty = "";
@@ -105,22 +101,18 @@ function verifyEmail(
 
     if (manilapa === "Manila Personal Assistant") {
       var unitprice5 = currency === "PHP" ? 1000 : 20;
-      var manilapaprice = unitprice5 * manilapadays;
+      var manilapadays = manilapadays;
     } else {
       var unitprice5 = "";
       var manilapadays = "";
-      var manilapaprice = "";
     }
 
-    var amount =
-      (unitprice2 === "" ? 0 : unitprice2) +
-      (unitprice3 === "" ? 0 : unitprice3) +
-      (unitprice4 === "" ? 0 : unitprice4) +
-      (manilapaprice === "" ? 0 : manilapaprice);
+    var manilapaprice = unitprice5 * manilapadays;
+    var amount = unitprice2 + unitprice3 + unitprice4 + manilapaprice;
 
-    var checkednames = [rentaflight, hotelacc, philacco, manilapa];
-    var checkedqty = [rafqty, hotelaccqty, philaccoqty, manilapadays];
-    var checkedvalues = [unitprice2, unitprice3, unitprice4, manilapaprice];
+    const checkednames = [rentaflight, hotelacc, philacco, manilapa];
+    const checkedqty = [rafqty, hotelaccqty, philaccoqty, manilapadays];
+    const checkedvalues = [unitprice2, unitprice3, unitprice4, manilapapaprice];
 
     var invoiceData = [
       firstName,
@@ -192,45 +184,23 @@ function createInvoicePdf(
   var doc = DocumentApp.openById(tempDoc);
   var body = doc.getBody();
 
-  var nameIndex = 0;
-  for (var i = 0; i < checkednames.length; i++) {
-    var value = checkednames[i];
-    if (value !== "") {
-      body.replaceText(`{{Misc${nameIndex}}}`, value);
-      nameIndex++;
-    }
+  for (var i = checkednames.length + 1; i <= 3; i++) {
+    body.replaceText(`{{Misc${i}}}`, "");
   }
 
-  var priceIndex = 0;
-  for (var i = 0; i < checkedvalues.length; i++) {
-    var value = checkedvalues[i];
-    if (value !== "") {
-      body.replaceText(`{{unit_price${priceIndex}}}`, value.toFixed(2));
-      body.replaceText(`{{amount_in${priceIndex}}}`, value.toFixed(2));
-      priceIndex++;
-    }
+  for (var i = checkedvalues.length + 1; i <= 3; i++) {
+    body.replaceText(`{{unit_price${i}}}`, "");
+    body.replaceText(`{{amount_in${i}}}`, "");
   }
 
-  var qtyIndex = 0;
-  for (var i = 0; i < checkedqty.length; i++) {
-    var value = checkedqty[i];
-    if (value !== "") {
-      body.replaceText(`{{qty${qtyIndex}}}`, value);
-      qtyIndex++;
-    }
-  }
-
-  for (var z = 0; z <= 4; z++) {
-    body.replaceText(`{{Misc${z}}}`, "");
-    body.replaceText(`{{qty${z}}}`, "");
-    body.replaceText(`{{unit_price${z}}}`, "");
-    body.replaceText(`{{amount_in${z}}}`, "");
+  for (var i = checkedqty.length + 1; i <= 3; i++) {
+    body.replaceText(`{{qty${i}}}`, "");
   }
 
   // Iterate through the placeholders array and replace the placeholders with their respective values
-  for (var a = 0; a < placeholders.length; a++) {
+  for (var i = 0; i < placeholders.length; i++) {
     // Get the value from the invoiceData array
-    var value = invoiceData[a];
+    var value = invoiceData[i];
 
     // Check if the value is a number
     if (typeof value === "number") {
@@ -243,7 +213,7 @@ function createInvoicePdf(
 
     // Ensure value is a string before replacing the text
     if (typeof value === "string") {
-      body.replaceText("{{" + placeholders[a] + "}}", value);
+      body.replaceText("{{" + placeholders[i] + "}}", value);
     } else {
       console.error("Value is not a string: ", value);
     }
@@ -252,7 +222,7 @@ function createInvoicePdf(
   doc.saveAndClose();
 
   var pdfBlob = DriveApp.getFileById(tempDoc).getAs("application/pdf");
-  pdfBlob.setName("Invoice-" + invoiceData[5] + ".pdf");
+  pdfBlob.setName("Invoice-" + invoiceData[6] + ".pdf");
 
   DriveApp.getFileById(tempDoc).setTrashed(true);
 
@@ -273,17 +243,16 @@ function processForm(fileData) {
   var bytes = Utilities.base64Decode(fileData.data.split(",")[1]);
   var blob = Utilities.newBlob(bytes, contentType, fileData.name);
   var file = folder.createFile(blob);
-  Logger.log(fileData.randomInvoiceNumber);
 
   var ss = SpreadsheetApp.openById(spreadsheetId);
   var ws = ss.getSheetByName(invoicesheet);
 
   var data = ws.getRange(1, 1, ws.getLastRow(), ws.getLastColumn()).getValues();
-  var emailColumn = 4; // Change this to the index of the email column in your sheet (0-based)
+  var emailColumn = 3; // Change this to the index of the email column in your sheet (0-based)
   var fileUrlColumn = 6; // Change this to the index of the file URL column in your sheet (0-based)
 
   for (var i = 0; i < data.length; i++) {
-    if (data[i][emailColumn] === fileData.randomInvoiceNumber) {
+    if (data[i][emailColumn] === fileData.email) {
       ws.getRange(i + 1, fileUrlColumn + 1).setValue(file.getUrl());
       break;
     }

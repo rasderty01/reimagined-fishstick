@@ -5,18 +5,23 @@ function doGet() {
 var spreadsheetId = "1aJnk-SiFXdgs4Czv9Jg2qi37fQhKks0373-v0hx7-_U";
 var sheetNames = ["Visit", "Fiance", "Spouse", "Married", "Unmarried"];
 var invoicesheet = "Payments";
-
 function doPost(e) {
   var email = e.parameter.email.toLowerCase();
   var visaservice = e.parameter.visaservice;
   var priority = e.parameter.priority;
+  const randomInvoiceNumber = e.parameter.randomInvoiceNumber;
 
-  var responseText = verifyEmail(email, visaservice, priority);
+  var responseText = verifyEmail(
+    email,
+    visaservice,
+    priority,
+    randomInvoiceNumber
+  );
 
   return ContentService.createTextOutput(responseText);
 }
 
-function verifyEmail(email, visaservice, priority) {
+function verifyEmail(email, visaservice, priority, randomInvoiceNumber) {
   if (visaservice === "Visit Visa") {
     var unitprice2 = 17000;
   } else if (visaservice === "Fiancé Visa") {
@@ -60,7 +65,7 @@ function verifyEmail(email, visaservice, priority) {
   var lastName, firstName, address, country, postalCode;
 
   var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-  var randomInvoiceNumber = "VS-" + Math.floor(Math.random() * 9000 + 1000);
+
   var invoiceTemplateId = "1Tyf4n9a_mvyAEaM52Em8UhJGqH3UPdhVOh6DVUHE4xI";
 
   for (var i = 0; i < sheetNames.length; i++) {
@@ -230,16 +235,17 @@ function processForm(fileData) {
   var bytes = Utilities.base64Decode(fileData.data.split(",")[1]);
   var blob = Utilities.newBlob(bytes, contentType, fileData.name);
   var file = folder.createFile(blob);
+  Logger.log(fileData.randomInvoiceNumber);
 
   var ss = SpreadsheetApp.openById(spreadsheetId);
   var ws = ss.getSheetByName(invoicesheet);
 
   var data = ws.getRange(1, 1, ws.getLastRow(), ws.getLastColumn()).getValues();
-  var emailColumn = 3; // Change this to the index of the email column in your sheet (0-based)
+  var emailColumn = 4; // Change this to the index of the email column in your sheet (0-based)
   var fileUrlColumn = 6; // Change this to the index of the file URL column in your sheet (0-based)
 
   for (var i = 0; i < data.length; i++) {
-    if (data[i][emailColumn] === fileData.email) {
+    if (data[i][emailColumn] === fileData.randomInvoiceNumber) {
       ws.getRange(i + 1, fileUrlColumn + 1).setValue(file.getUrl());
       break;
     }
