@@ -245,6 +245,13 @@
 
     <!-- download invoice -->
     <script>
+                  const randomInvoiceNumber =
+        "OT-" + Math.floor(Math.random() * 9000 + 1000);
+
+      const data1 = {
+        // Your existing form data
+        randomInvoiceNumber: randomInvoiceNumber,
+      };
       document
         .getElementById("search-btn")
         .addEventListener("click", function (event) {
@@ -303,7 +310,7 @@
               .withFailureHandler(function (error) {
                 alert("Error: " + error);
               })
-              .verifyEmail(email);
+              .verifyEmail(email, data1.randomInvoiceNumber);
           }
         });
 
@@ -331,6 +338,7 @@
           var fileData = {
             data: e.target.result,
             name: uploadedFile.name,
+            randomInvoiceNumber:randomInvoiceNumber,
             email: document.getElementById("emailverification").value,
           };
           google.script.run.withSuccessHandler(success).processForm(fileData);
@@ -353,7 +361,7 @@
             });
           } else {
             clearInterval(countdownInterval);
-            window.location.href = "https://www.example.com"; // Replace with your desired URL
+            window.location.href = "insert hubspot link"; // Replace with your desired URL
           }
         }, 1000);
 

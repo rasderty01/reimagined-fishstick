@@ -14,17 +14,17 @@ console.log(doGet);
 
 function doPost(e) {
   var email = e.parameter.emailverification;
-  var responseText = verifyEmail(email);
+  var randomInvoiceNumber = e.parameter.randomInvoiceNumber;
+  var responseText = verifyEmail(email, randomInvoiceNumber);
   return ContentService.createTextOutput(responseText);
 }
 
-function verifyEmail(email) {
+function verifyEmail(email, randomInvoiceNumber) {
   var email = email.toLowerCase();
   var sheet, dataRange, values, row;
   var lastName, firstName, address, country, postalCode;
 
   var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-  var randomInvoiceNumber = "INV-" + Math.floor(Math.random() * 9000 + 1000);
   var invoiceTemplateId = "1mpt9_b9xHGzdcF57xz0zJ3HLAKEoqzrToH4qay3TutQ";
 
   for (var i = 0; i < sheetNames.length; i++) {
@@ -63,7 +63,7 @@ function verifyEmail(email) {
 
     // Convert the amount to the target currency using the conversion rate
     if (conversionRate !== 1) {
-      amount = unitPrice / conversionRate;
+      amount = 25;
       console.log(amount);
     }
 
@@ -142,21 +142,23 @@ function formatDate(date) {
 //
 
 function processForm(fileData) {
+  var folderId = "1hFTz_wyjSKfjNLc6O7iJhJf8hTeM7am-";
   var folder = DriveApp.getFolderById(folderId);
   var contentType = fileData.data.substring(5, fileData.data.indexOf(";"));
   var bytes = Utilities.base64Decode(fileData.data.split(",")[1]);
   var blob = Utilities.newBlob(bytes, contentType, fileData.name);
   var file = folder.createFile(blob);
+  Logger.log(fileData.randomInvoiceNumber);
 
-  var ss = SpreadsheetApp.openById(url);
-  var ws = ss.getSheetByName(sh);
+  var ss = SpreadsheetApp.openById(spreadsheetId);
+  var ws = ss.getSheetByName(invoicesheet);
 
   var data = ws.getRange(1, 1, ws.getLastRow(), ws.getLastColumn()).getValues();
-  var emailColumn = 3; // Change this to the index of the email column in your sheet (0-based)
+  var emailColumn = 4; // Change this to the index of the email column in your sheet (0-based)
   var fileUrlColumn = 6; // Change this to the index of the file URL column in your sheet (0-based)
 
   for (var i = 0; i < data.length; i++) {
-    if (data[i][emailColumn] === fileData.email) {
+    if (data[i][emailColumn] === fileData.randomInvoiceNumber) {
       ws.getRange(i + 1, fileUrlColumn + 1).setValue(file.getUrl());
       break;
     }

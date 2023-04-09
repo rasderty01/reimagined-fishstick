@@ -242,6 +242,14 @@
 
     <!-- download invoice -->
     <script>
+
+            const randomInvoiceNumber =
+        "UNLI-" + Math.floor(Math.random() * 9000 + 1000);
+
+      const data1 = {
+        // Your existing form data
+        randomInvoiceNumber: randomInvoiceNumber,
+      };
       document
         .getElementById("search-btn")
         .addEventListener("click", function (event) {
@@ -300,7 +308,7 @@
               .withFailureHandler(function (error) {
                 alert("Error: " + error);
               })
-              .verifyEmail(email);
+              .verifyEmail(email, data1.randomInvoiceNumber);
           }
         });
 
@@ -327,6 +335,7 @@
         reader.onloadend = function (e) {
           var fileData = {
             data: e.target.result,
+            randomInvoiceNumber:randomInvoiceNumber,
             name: uploadedFile.name,
             email: document.getElementById("emailverification").value,
           };
@@ -350,7 +359,7 @@
             });
           } else {
             clearInterval(countdownInterval);
-            window.location.href = "https://www.example.com"; // Replace with your desired URL
+            window.open("https://www.example.com", "_blank"); // Replace with your desired URL
           }
         }, 1000);
 
