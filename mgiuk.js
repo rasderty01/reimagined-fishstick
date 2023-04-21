@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
               } else {
                 clearInterval(countdownInterval);
-                window.location.href = "consultation.html"; // Replace with your desired URL
+                window.location.href = "https://mgiukgroup.com/consultation-1"; // Replace with your desired URL
               }
             }, 1000);
 
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
               } else {
                 clearInterval(countdownInterval);
-                window.location.href = "consultation.html"; // Replace with your desired URL
+                window.location.href = "https://mgiukgroup.com/consultation-1"; // Replace with your desired URL
               }
             }, 1000);
 
@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
               } else {
                 clearInterval(countdownInterval);
-                window.location.href = "consultation.html"; // Replace with your desired URL
+                window.location.href = "https://mgiukgroup.com/consultation-1"; // Replace with your desired URL
               }
             }, 1000);
 
@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
               } else {
                 clearInterval(countdownInterval);
-                window.location.href = "consultation.html"; // Replace with your desired URL
+                window.location.href = "https://mgiukgroup.com/consultation-1"; // Replace with your desired URL
               }
             }, 1000);
 
@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
               } else {
                 clearInterval(countdownInterval);
-                window.location.href = "consultation.html"; // Replace with your desired URL
+                window.location.href = "https://mgiukgroup.com/consultation-1"; // Replace with your desired URL
               }
             }, 1000);
 
