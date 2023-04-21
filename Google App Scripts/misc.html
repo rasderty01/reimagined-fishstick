@@ -43,7 +43,7 @@
         </div>
 
         <div class="flex-col p-3">
-          <label class="flex w-full font-bold">Other Services</label>
+          <label for="raf" class="flex w-full font-bold">Other Services</label>
           <select
             id="raf"
             name="raf"
@@ -75,16 +75,37 @@
           >
         </div>
 
-        <div class="flex-col p-3 ml-2">
-          <input
-            type="checkbox"
-            name="pas"
-            id="pas"
-            value="Philippine Accommodation (Studio)"
-          />
-          <label class="font-normal" for="pas"
+        <div class="flex-col p-3">
+          <label for="pas" class="flex w-full font-bold"
             >Philippine Accommodation (Studio)</label
           >
+          <select
+            id="pas"
+            name="pas"
+            class="text-center rounded-lg text-sm shadow-md focus:shadow-none placeholder-gray-500 w-full border border-solid border-blue-400 mt-4 py-2 bg-white focus:border-blue-800 focus:ring-4 focus:ring-sky-500 focus: outline-none focus: border-0 hover:bg-gray-50"
+            required
+          >
+            <option value="">Select an Option</option>
+            <option value="Option 1">Makati Studio 1</option>
+            <option value="Option 2">Makati Studio 2</option>
+          </select>
+        </div>
+        <div id="range1" class="flex-col">
+          <div class="flex-col p-3 ml-2">
+            <label class="font-normal" for="Accomodationdays"
+              >Number of Days: <output id="AccommodationValue"></output
+            ></label>
+          </div>
+          <div class="flex-col p-3 ml-2">
+            <input
+              aria-label="Accomodation Days"
+              type="range"
+              name="AccomodationDays"
+              id="AccomodationDays"
+              min="1"
+              max="10"
+            />
+          </div>
         </div>
 
         <div class="flex-col p-3 ml-2">
@@ -103,7 +124,14 @@
             ></label>
           </div>
           <div class="flex-col p-3 ml-2">
-            <input type="range" name="days" id="days" min="1" max="10" />
+            <input
+              aria-label="days"
+              type="range"
+              name="days"
+              id="days"
+              min="1"
+              max="10"
+            />
           </div>
         </div>
 
@@ -213,7 +241,9 @@
           id="download-link-container"
           class="flex-col justify-center text-center py-5"
         ></div>
-        <label class="mb-2 block text-xl font-bold text-black p-2 mb-4 w-80"
+        <label
+          for="uploadedFile"
+          class="mb-2 block text-xl font-bold text-black p-2 mb-4 w-80"
           >Step 2: After paying, upload your proof of purchase:
         </label>
         <input
@@ -334,6 +364,13 @@
         value.textContent = event.target.value;
       });
 
+      const value2 = document.querySelector("#AccommodationValue");
+      const input2 = document.querySelector("#AccomodationDays");
+      value2.textContent = input2.value;
+      input2.addEventListener("input", (event) => {
+        value2.textContent = event.target.value;
+      });
+
       document.getElementById("mpa").addEventListener("change", showdays);
 
       function showdays() {
@@ -379,32 +416,29 @@
 
           console.log(har);
 
-          var pas = document.querySelector("#pas");
+          var pas = document.getElementById("pas").value;
 
-          if (pas.checked) {
+          if (pas === "Option 1" || pas === "Option 2") {
             var pas = document.querySelector("#pas").value;
+            var pasDays = document.getElementById("AccomodationDays").value;
           } else {
             pas = "";
+            pasDays = "";
           }
-
+          console.log(pasDays);
           console.log(pas);
 
           var manilapa = document.querySelector("#mpa");
 
           if (manilapa.checked) {
             var manilapa = document.querySelector("#mpa").value;
-          } else {
-            manilapa = "";
-          }
-
-          console.log(manilapa);
-
-          if (manilapa === "Manila Personal Assistant") {
             var manilapadays = document.getElementById("days").value;
           } else {
+            manilapa = "";
             manilapadays = "";
           }
 
+          console.log(manilapa);
           console.log(manilapadays);
 
           var spinner = document.getElementById("loading");
@@ -464,6 +498,7 @@
                 rentaflight,
                 har,
                 pas,
+                pasDays,
                 manilapa,
                 manilapadays,
                 data1.randomInvoiceNumber

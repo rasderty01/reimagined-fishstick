@@ -3,7 +3,14 @@ function doGet() {
 }
 
 var spreadsheetId = "1aJnk-SiFXdgs4Czv9Jg2qi37fQhKks0373-v0hx7-_U";
-var sheetNames = ["Visit", "Fiance", "Spouse", "Married", "Unmarried"];
+var sheetNames = [
+  "Visit",
+  "Fiance",
+  "Spouse",
+  "Married",
+  "Unmarried",
+  "MiscForm",
+];
 var invoicesheet = "Payments";
 
 function doPost(e) {
@@ -13,6 +20,7 @@ function doPost(e) {
   var philacco = e.parameter.pas;
   var manilapa = e.parameter.mpa;
   var manilapadays = e.parameter.days;
+  var pasDays = e.parameter.AccomodationDays;
   const randomInvoiceNumber = e.parameter.randomInvoiceNumber;
   Logger.log(randomInvoiceNumber);
 
@@ -21,6 +29,7 @@ function doPost(e) {
     rentaflight,
     hotelacc,
     philacco,
+    pasDays,
     manilapa,
     manilapadays,
     randomInvoiceNumber
@@ -34,11 +43,13 @@ function verifyEmail(
   rentaflight,
   hotelacc,
   philacco,
+  pasDays,
   manilapa,
   manilapadays,
   randomInvoiceNumber
 ) {
   email = email.toLowerCase();
+  pasDays = parseInt(pasDays, 10);
   manilapadays = parseInt(manilapadays, 10);
 
   var sheet, dataRange, values, row;
@@ -77,7 +88,7 @@ function verifyEmail(
     var currency = country === "United Kingdom" ? "GBP" : "PHP";
 
     if (rentaflight === "Rent-a-flight (Return)") {
-      var unitprice2 = currency === "PHP" ? 2500 : 25;
+      var unitprice2 = currency === "PHP" ? 1500 : 25;
       var rafqty = 1;
     } else if (rentaflight === "Rent-a-flight (One way)") {
       var unitprice2 = currency === "PHP" ? 1000 : 20;
@@ -95,12 +106,19 @@ function verifyEmail(
       var hotelaccqty = "";
     }
 
-    if (philacco === "Philippine Accommodation (Studio)") {
-      var unitprice4 = currency === "PHP" ? 2250 : 35;
-      var philaccoqty = 1;
+    if (philacco === "Option 1") {
+      var unitprice4 = currency === "PHP" ? 2300 : 35;
+      var finalprice = unitprice4 * pasDays;
+      var philaccom = "Makati Studio 1";
+    } else if (philacco === "Option 2") {
+      var unitprice4 = currency === "PHP" ? 2300 : 35;
+      var finalprice = unitprice4 * pasDays;
+      var philaccom = "Makati Studio 2";
     } else {
       var unitprice4 = "";
-      var philaccoqty = "";
+      var philacco = "";
+      var finalprice = "";
+      var philaccom = "";
     }
 
     if (manilapa === "Manila Personal Assistant") {
@@ -116,11 +134,13 @@ function verifyEmail(
       (unitprice2 === "" ? 0 : unitprice2) +
       (unitprice3 === "" ? 0 : unitprice3) +
       (unitprice4 === "" ? 0 : unitprice4) +
-      (manilapaprice === "" ? 0 : manilapaprice);
+      (manilapaprice === "" ? 0 : manilapaprice) +
+      (finalprice === "" ? 0 : finalprice);
 
-    var checkednames = [rentaflight, hotelacc, philacco, manilapa];
-    var checkedqty = [rafqty, hotelaccqty, philaccoqty, manilapadays];
-    var checkedvalues = [unitprice2, unitprice3, unitprice4, manilapaprice];
+    var checkednames = [rentaflight, hotelacc, philaccom, manilapa];
+    var checkedqty = [rafqty, hotelaccqty, pasDays, manilapadays];
+    var checkedvalues = [unitprice2, unitprice3, unitprice4, unitprice5];
+    var totalValues = [unitprice2, unitprice3, finalprice, manilapaprice];
 
     var invoiceData = [
       firstName,
@@ -155,7 +175,8 @@ function verifyEmail(
       placeholders,
       checkednames,
       checkedvalues,
-      checkedqty
+      checkedqty,
+      totalValues
     );
 
     var folderId = "1Y7_xZgNCZsjXdIauI67gENueMFcCe8M0";
@@ -185,7 +206,8 @@ function createInvoicePdf(
   placeholders,
   checkednames,
   checkedvalues,
-  checkedqty
+  checkedqty,
+  totalValues
 ) {
   var template = DriveApp.getFileById(templateId);
   var tempDoc = template.makeCopy().getId();
@@ -206,8 +228,16 @@ function createInvoicePdf(
     var value = checkedvalues[i];
     if (value !== "") {
       body.replaceText(`{{unit_price${priceIndex}}}`, value.toFixed(2));
-      body.replaceText(`{{amount_in${priceIndex}}}`, value.toFixed(2));
       priceIndex++;
+    }
+  }
+
+  var totalIndex = 0;
+  for (var i = 0; i < totalValues.length; i++) {
+    var value = totalValues[i];
+    if (value !== "") {
+      body.replaceText(`{{amount_in${totalIndex}}}`, value.toFixed(2));
+      totalIndex++;
     }
   }
 
@@ -224,7 +254,6 @@ function createInvoicePdf(
     body.replaceText(`{{Misc${z}}}`, "");
     body.replaceText(`{{qty${z}}}`, "");
     body.replaceText(`{{unit_price${z}}}`, "");
-    body.replaceText(`{{amount_in${z}}}`, "");
   }
 
   // Iterate through the placeholders array and replace the placeholders with their respective values
